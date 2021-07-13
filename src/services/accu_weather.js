@@ -15,6 +15,7 @@ const errorHandler = (isError) => {
 }
 
 export const getPlaces = async(search) => {
+    search = search.replace(/^ +/, '');
     if(!search) return null;
     errorHandler(false);
     const url = `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${search}&language=en-us`;

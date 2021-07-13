@@ -19,7 +19,8 @@ const Home = ({ favorites, editFavorites }) => {
     const selectedLocation = query && query.location;
     const defaultLocation = {city: "Tel Aviv", country: "Israel", key: "215854"};
 
-    const [search, setSearch] = useState('');
+    // Search value initialized with white space to avoid 'changing an uncontrolled input' warning.
+    const [search, setSearch] = useState(' ');
     const [places, setPLaces] = useState(null);
     const [location, setLocation] = useState(selectedLocation || defaultLocation);
     const [currentWeather, setCurrentWeather] = useState(null);
@@ -28,6 +29,7 @@ const Home = ({ favorites, editFavorites }) => {
     const [starOver, setStarOver] = useState(false);
     const [tooltip, setTooltip] = useState(null);
     
+    useEffect(() => setSearch(''), []);
     useEffect(() => (async() => setPLaces(await getPlaces(search)))(), [search]);
     useEffect(() => {
         (async() => {
@@ -63,6 +65,7 @@ const Home = ({ favorites, editFavorites }) => {
                     <div className="form-group mt-2 d-flex mx-auto">
                         <i style={styles.searchIcon} className="fas fa-search p-3"></i>
                         <input 
+                            value={search}
                             className="form-control shadow-none" 
                             style={styles.input} 
                             placeholder="Search Location" 
@@ -76,7 +79,6 @@ const Home = ({ favorites, editFavorites }) => {
                 (places && places.length) ? places.map(({ city, country, key }, i) => {
                     return (
                         <div 
-                            value={search}
                             className="place d-flex justify-content-between p-3 shadow m-1" 
                             style={{...styles.place, ...placeOver === i ? {transform: 'scale(1.1)', cursor: 'pointer'} : {}}} 
                             key={i}
