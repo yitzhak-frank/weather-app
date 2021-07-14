@@ -2,6 +2,7 @@ import styles from '../styles';
 import Tooltip from "./tooltip";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import useWindowSize from '../hooks/screen_size';
 import { getCurrentWeather } from "../services/accu_weather";
 import { useEffect, useState } from "react";
 import { editFavorites, REMOVE_FROM_FAVORITES } from '../redux/favorites_reducer';
@@ -9,6 +10,8 @@ import { editFavorites, REMOVE_FROM_FAVORITES } from '../redux/favorites_reducer
 const { headingBlue, headingYellow, starIcon, starIconOver, tempColor, weatherColor } = styles;
 
 const Favorites = ({ favorites, editFavorites }) => {
+
+    const { width } = useWindowSize();
 
     const [weather, setWeather] = useState([]);
     const [starOver, setStarOver] = useState(false);
@@ -21,6 +24,7 @@ const Favorites = ({ favorites, editFavorites }) => {
     })(), [favorites]);
 
     const styles = {
+        mainHeading: { fontSize: width < 500 ? '2rem' : '2.5rem' },
         favorite: { maxWidth: '900px', width: '90%', borderRadius: '10px', textDecoration: 'none', transition: '0.33s' },
         headingBlue, 
         headingYellow, 
@@ -33,7 +37,7 @@ const Favorites = ({ favorites, editFavorites }) => {
     return (
         <>
         <div className="top d-block pt-4" style={styles.top}>
-                <h1 style={styles.headingBlue}>Favorites</h1>   
+                <h1 style={{...styles.headingBlue, ...styles.mainHeading}}>Favorites</h1>   
         </div>
         <main className="p-3">
             {
@@ -71,8 +75,8 @@ const Favorites = ({ favorites, editFavorites }) => {
                                     }}
                                 ></i>
                                 <h4 style={styles.headingBlue}>
-                                    <strong>{city}</strong>
-                                    <div>{country}</div>
+                                    <strong>{city}</strong> <br/>
+                                    <span>{country}</span>
                                 </h4>
                                 <h5 className="text-center p-3"> 
                                     <span style={styles.weatherColor(weather)}>{weather} </span>&nbsp;

@@ -2,9 +2,10 @@ import logoIcon from '../accets/favicon.png';
 import { NavLink } from "react-router-dom";
 import useWindowSize from '../hooks/screen_size';
 import { useEffect, useState } from "react";
+import Dark from './dark_mode';
 
 const Navbar = () => {
-    
+
     const { width } = useWindowSize();
 
     const [hamburger, setHamburger] = useState(false);
@@ -17,7 +18,7 @@ const Navbar = () => {
 
     const styles = {
         navbar: { height: '80px', width: '100%', position: 'fixed', top: 0, zIndex: 5, backgroundColor: 'white' },
-        navLinksContainer: { boxShadow: hamburger && '0 6px 6px silver', backgroundColor: 'white' },
+        navLinksContainer: { boxShadow: hamburger && '0 6px 6px rgb(87, 87, 87)', backgroundColor: 'white' },
         navLinks: { borderRadius: '3px' },
         hamburger: { cursor: 'pointer', height: '55px', width: '60px', position: 'fixed', top: '10px', right: '10px', zIndex: 9, borderRadius: '10px', padding: '7.5px 10px', boxShadow: hamburgerOver ? '0 0 6px #AAAA00' : '0 0 6px #00AAAA', transition: '0.4s' },
         bars: barStyle,
@@ -70,7 +71,7 @@ const Navbar = () => {
                     onClick={() => setHamburger(false)}
                 >Favorites </NavLink>
             </div>
-
+            
             <NavLink
                 to="/home"
                 className="logo d-flex align-items-center"
@@ -80,6 +81,7 @@ const Navbar = () => {
             >
                 <img src={logoIcon} alt="logo" style={styles.logoImg} />
             </NavLink>
+            <Dark/>
         </nav>
     )
 }

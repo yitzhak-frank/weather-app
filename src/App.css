@@ -1,0 +1,11 @@
+body {
+    height: 100vh;
+}
+
+.white-text {
+    color: white;
+}
+
+.dark-theme-shadow {
+    box-shadow: 1px 1px 6px rgb(87, 87, 87);
+}

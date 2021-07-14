@@ -40,12 +40,13 @@ const Home = ({ favorites, editFavorites }) => {
 
     const styles = {
         top: { position: 'fixed', top: '80px', zIndex: 2, paddingTop: '20px', width: '100%', backgroundColor: 'white' },
+        mainHeading: { fontSize: width < 500 ? '2rem' : '2.5rem' },
         searchPlaces: { width: width > 768 ? '50%' : '90%' },
         input: { border: 'none', borderBottom: '2px solid #00BBFF', outline: 'none', borderRadius: '0' },
         searchIcon: { color: '#00BBFF' },
         places: { height: 'fit-content', width: '90%', maxWidth: '900px', marginTop: width > 768 ? '100px' : '150px' },
         place: { borderRadius: '7px', border: '1px solid #fff', transition: '0.33s' },
-        main: { width: '90%', borderRadius: '15px', marginTop: width > 768 ? '100px' : '150px' },
+        main: { width: '90%', borderRadius: '15px', marginTop: (places && places.length) ? '' : width > 768 ? '100px' : '150px' },
         currentWeather: { position: 'relative' },
         dailyWeatherContainer: { overflow: 'auto', maxHeight: '350px', width: width > 768 ? '100%' : 'fit-content' },
         dailyWeather: { width: width > 400 && '300px', minWidth: width > 400 && '300px', borderRadius: '7px', height: 'fit-content' },
@@ -60,7 +61,7 @@ const Home = ({ favorites, editFavorites }) => {
     return (
         <>
             <div className="top d-block d-md-flex justify-content-around align-items-start" style={styles.top}>
-                <h1 className="" style={styles.headingBlue}>Weather Forecast</h1>
+                <h1 className="" style={{...styles.headingBlue, ...styles.mainHeading}}>Weather Forecast</h1>
                 <div className="search-places mx-auto mx-md-0" style={styles.searchPlaces}>
                     <div className="form-group mt-2 d-flex mx-auto">
                         <i style={styles.searchIcon} className="fas fa-search p-3"></i>
@@ -114,7 +115,7 @@ const Home = ({ favorites, editFavorites }) => {
                             const { city, country } = location;
                             const isFavorite = favorites.some(({key}) => key === location.key);
                             return (
-                                <div className="current-weather p-3" key={i} style={styles.currentWeather}>
+                                <div className="current-weather pt-3 px-3 pb-0" key={i} style={styles.currentWeather}>
                                     <i 
                                         className={isFavorite ? "fas fa-star shadow" : "far fa-star shadow"}
                                         style={{...styles.starIcon, ...starOver ? styles.starIconOver : {}}}
@@ -128,8 +129,8 @@ const Home = ({ favorites, editFavorites }) => {
                                     ></i>
                                     <div className="main-top d-block d-md-flex justify-content-around align-items-center">
                                         <h4 style={styles.headingBlue}>
-                                            <strong>{city}</strong>
-                                            <div>{country}</div>
+                                            <strong>{city}</strong><br/>
+                                            <span>{country}</span>
                                         </h4>
                                         <h5 className="text-center p-3"> 
                                             <span style={styles.weatherColor(weather)}>{weather} </span>&nbsp;
@@ -173,6 +174,7 @@ const Home = ({ favorites, editFavorites }) => {
                     : <></>
                 }
             </main>
+            <div className="bottom-space p-3"></div>
             {tooltip && <Tooltip 
                 content={favorites.some(({key}) => key === location.key) ? 'Remove from favorites' : 'Add to favorites'}
                 event={tooltip}
