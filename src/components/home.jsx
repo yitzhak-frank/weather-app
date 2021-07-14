@@ -54,7 +54,7 @@ const Home = ({ favorites, editFavorites }) => {
         location: { whiteSpace: 'pre-wrap' },
         currentWeather: { position: 'relative' },
         dailyWeatherContainer: { overflow: 'auto', maxHeight: '350px', width: width > 768 ? '100%' : 'fit-content' },
-        dailyWeather: { width: width > 400 && '300px', minWidth: width > 400 && '300px', borderRadius: '7px', height: 'fit-content' },
+        dailyWeather: { width: width > 400 ? '300px' : `${width - 104}px`, minWidth: width > 400 && '300px', borderRadius: '7px', height: 'fit-content' },
         starIcon: { ...icon, position: 'absolute', top: '-25px', left: '25px' },
         switchCelsiusIcon: { ...icon, position: 'absolute', top: '-30px', right: '25px', fontSize: '2.2rem' },
         iconOver,
