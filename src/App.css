@@ -9,3 +9,7 @@ body {
 .dark-theme-shadow {
     box-shadow: 1px 1px 6px rgb(87, 87, 87);
 }
+
+main, .nav {
+    max-width: 1200px;
+}

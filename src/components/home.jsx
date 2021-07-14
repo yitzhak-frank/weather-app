@@ -39,7 +39,7 @@ const Home = ({ favorites, editFavorites }) => {
     }, [location]);
 
     const styles = {
-        top: { position: 'fixed', top: '80px', zIndex: 2, paddingTop: '20px', width: '100%', backgroundColor: 'white' },
+        top: { position: 'fixed', top: '80px', left: width > 1200 ? (width - 1200) / 2 : 0, zIndex: 2, paddingTop: '20px', width: '100%', maxWidth: '1200px', backgroundColor: 'white' },
         mainHeading: { fontSize: width < 500 ? '2rem' : '2.5rem' },
         searchPlaces: { width: width > 768 ? '50%' : '90%' },
         input: { border: 'none', borderBottom: '2px solid #00BBFF', outline: 'none', borderRadius: '0' },

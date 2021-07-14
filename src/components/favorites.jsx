@@ -39,7 +39,7 @@ const Favorites = ({ favorites, editFavorites }) => {
         <div className="top d-block pt-4" style={styles.top}>
                 <h1 style={{...styles.headingBlue, ...styles.mainHeading}}>Favorites</h1>   
         </div>
-        <main className="p-3">
+        <main className="p-3 mx-auto">
             {
                 !favorites.length ? 
                     <div className="no-location">

@@ -25,7 +25,7 @@ const Navbar = () => {
         bar1: { ...barStyle, transform: 'rotate(-45deg) translate(-9px, 6px)' },
         bar2: { ...barStyle, opacity: 0 },
         bar3: { ...barStyle, transform: 'rotate(45deg) translate(-8px, -8px)' },
-        logo: { position: 'fixed', top: '5px', left: '5px', opacity: logoOver ? 1 : 0.7, transition: '0.5s' },
+        logo: { position: 'fixed', top: '5px', left: width < 1200 ? '5px' : (width - 1200) / 2, opacity: logoOver ? 1 : 0.7, transition: '0.5s' },
         logoImg: { height: '70px', width: '70px' },
     }
 
@@ -41,47 +41,49 @@ const Navbar = () => {
 
     return (
         <nav className={hamburger ? "navbar p-0" : "navbar p-0 shadow"} style={styles.navbar}>
-            <div
-                id="hamburger"
-                className="hamburger-container d-block d-md-none"
-                style={!hamburger ? { ...styles.hamburger } : { ...styles.hamburger, boxShadow: 'none' }}
-                onMouseEnter={() => setHamburgerHover(true)}
-                onMouseLeave={() => setHamburgerHover(false)}
-                onClick={toggleHamburger}
-            >
-                <div className="bar1" style={hamburger ? styles.bar1 : styles.bars}></div>
-                <div className="bar2" style={hamburger ? styles.bar2 : styles.bars}></div>
-                <div className="bar3" style={hamburger ? styles.bar3 : styles.bars}></div>
-            </div>
+            <div className="nav mx-auto w-100">
+                <div
+                    id="hamburger"
+                    className="hamburger-container d-block d-md-none"
+                    style={!hamburger ? { ...styles.hamburger } : { ...styles.hamburger, boxShadow: 'none' }}
+                    onMouseEnter={() => setHamburgerHover(true)}
+                    onMouseLeave={() => setHamburgerHover(false)}
+                    onClick={toggleHamburger}
+                >
+                    <div className="bar1" style={hamburger ? styles.bar1 : styles.bars}></div>
+                    <div className="bar2" style={hamburger ? styles.bar2 : styles.bars}></div>
+                    <div className="bar3" style={hamburger ? styles.bar3 : styles.bars}></div>
+                </div>
 
-            <div style={styles.navLinksContainer} className={hamburger ?
-                "navbar-nav d-block w-100 pb-3 mt-4 pt-5 px-2" :
-                "navbar-nav d-none d-md-flex flex-row pr-3 ml-5 pl-5"
-            }>
-                <NavLink 
-                    to="/home" 
-                    className={hamburger ? "nav-link m-2 p-2 border" : "nav-link px-2"} 
-                    style={styles.navLinks}
-                    onClick={() => setHamburger(false)}
-                >Home </NavLink>
-                <NavLink 
-                    to="/favorites" 
-                    className={hamburger ? "nav-link m-2 p-2 border" : "nav-link px-2"} 
-                    style={styles.navLinks}
-                    onClick={() => setHamburger(false)}
-                >Favorites </NavLink>
+                <div style={styles.navLinksContainer} className={hamburger ?
+                    "navbar-nav d-block w-100 pb-3 mt-4 pt-5 px-2" :
+                    "navbar-nav d-none d-md-flex flex-row pr-3 ml-5 pl-5"
+                }>
+                    <NavLink 
+                        to="/home" 
+                        className={hamburger ? "nav-link m-2 p-2 border" : "nav-link px-2"} 
+                        style={styles.navLinks}
+                        onClick={() => setHamburger(false)}
+                    >Home </NavLink>
+                    <NavLink 
+                        to="/favorites" 
+                        className={hamburger ? "nav-link m-2 p-2 border" : "nav-link px-2"} 
+                        style={styles.navLinks}
+                        onClick={() => setHamburger(false)}
+                    >Favorites </NavLink>
+                </div>
+                
+                <NavLink
+                    to="/home"
+                    className="logo d-flex align-items-center"
+                    style={styles.logo}
+                    onMouseEnter={() => setLogoOver(true)}
+                    onMouseLeave={() => setLogoOver(false)}
+                >
+                    <img src={logoIcon} alt="logo" style={styles.logoImg} />
+                </NavLink>
+                <Dark/>
             </div>
-            
-            <NavLink
-                to="/home"
-                className="logo d-flex align-items-center"
-                style={styles.logo}
-                onMouseEnter={() => setLogoOver(true)}
-                onMouseLeave={() => setLogoOver(false)}
-            >
-                <img src={logoIcon} alt="logo" style={styles.logoImg} />
-            </NavLink>
-            <Dark/>
         </nav>
     )
 }

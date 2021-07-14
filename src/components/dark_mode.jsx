@@ -23,8 +23,7 @@ const Dark = () => {
         i: {
             position: 'fixed', 
             top: '28px', 
-            right: width >= 768 ? '15px' : '95px',
-            zIndex: -1,
+            right: width > 1200 ? ((width - 1200) / 2) + 15 : width >= 768 ? '15px' : '95px',
             fontSize: '1.75rem',
             borderRadius: '50%',
             transition: '0.33s' 
