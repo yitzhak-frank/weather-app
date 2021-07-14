@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/yitzhak-frank-12-07-21/static/css/main.953676aa.chunk.css",
+    "main.js": "/yitzhak-frank-12-07-21/static/js/main.b712a72a.chunk.js",
+    "main.js.map": "/yitzhak-frank-12-07-21/static/js/main.b712a72a.chunk.js.map",
+    "runtime-main.js": "/yitzhak-frank-12-07-21/static/js/runtime-main.4491e49a.js",
+    "runtime-main.js.map": "/yitzhak-frank-12-07-21/static/js/runtime-main.4491e49a.js.map",
+    "static/css/2.6f50910a.chunk.css": "/yitzhak-frank-12-07-21/static/css/2.6f50910a.chunk.css",
+    "static/js/2.3e918265.chunk.js": "/yitzhak-frank-12-07-21/static/js/2.3e918265.chunk.js",
+    "static/js/2.3e918265.chunk.js.map": "/yitzhak-frank-12-07-21/static/js/2.3e918265.chunk.js.map",
+    "static/js/3.dec73c47.chunk.js": "/yitzhak-frank-12-07-21/static/js/3.dec73c47.chunk.js",
+    "static/js/3.dec73c47.chunk.js.map": "/yitzhak-frank-12-07-21/static/js/3.dec73c47.chunk.js.map",
+    "index.html": "/yitzhak-frank-12-07-21/index.html",
+    "static/css/2.6f50910a.chunk.css.map": "/yitzhak-frank-12-07-21/static/css/2.6f50910a.chunk.css.map",
+    "static/css/main.953676aa.chunk.css.map": "/yitzhak-frank-12-07-21/static/css/main.953676aa.chunk.css.map",
+    "static/js/2.3e918265.chunk.js.LICENSE.txt": "/yitzhak-frank-12-07-21/static/js/2.3e918265.chunk.js.LICENSE.txt",
+    "static/media/all.css": "/yitzhak-frank-12-07-21/static/media/fa-solid-900.efbd5d20.eot",
+    "static/media/favicon.6dc21615.png": "/yitzhak-frank-12-07-21/static/media/favicon.6dc21615.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4491e49a.js",
+    "static/css/2.6f50910a.chunk.css",
+    "static/js/2.3e918265.chunk.js",
+    "static/css/main.953676aa.chunk.css",
+    "static/js/main.b712a72a.chunk.js"
+  ]
+}
