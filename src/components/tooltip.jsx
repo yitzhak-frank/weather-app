@@ -14,6 +14,7 @@ const Tooltip = ({content, event}) => {
             top: `${top - scrollPositionTop}px`, 
             left: `${width - left > 200 ? left + 15 : left - 215}px`, 
             zIndex: 5, 
+            color: 'black',
             width: '200px', 
             padding: '10px', 
             boxShadow: '0 0 6px gray', 
@@ -23,7 +24,7 @@ const Tooltip = ({content, event}) => {
         }
     }
 
-    return <div className="tooltip-box text-center" style={styles.tooltip}><strong>{content}</strong></div>
+    return <span className="tooltip-box text-center" style={styles.tooltip}><strong>{content}</strong></span>
 }
 
 export default Tooltip;
