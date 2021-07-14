@@ -18,7 +18,7 @@ const Navbar = () => {
 
     const styles = {
         navbar: { height: '80px', width: '100%', position: 'fixed', top: 0, zIndex: 5, backgroundColor: 'white' },
-        navLinksContainer: { boxShadow: hamburger && '0 6px 6px rgb(87, 87, 87)', backgroundColor: 'white' },
+        navLinksContainer: { boxShadow: hamburger && '0 3px 3px rgb(80, 80, 80)', backgroundColor: 'white' },
         navLinks: { borderRadius: '3px' },
         hamburger: { cursor: 'pointer', height: '55px', width: '60px', position: 'fixed', top: '10px', right: '10px', zIndex: 9, borderRadius: '10px', padding: '7.5px 10px', boxShadow: hamburgerOver ? '0 0 6px #AAAA00' : '0 0 6px #00AAAA', transition: '0.4s' },
         bars: barStyle,

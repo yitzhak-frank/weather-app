@@ -32,7 +32,7 @@ const Home = ({ favorites, editFavorites }) => {
     const [fahrenheit, setFahrenheit] = useState(false);
     const [switchCelsiusOver, setSwitchCelsiusOver] = useState(false);
     
-    useEffect(() => setSearch(''), [])
+    useEffect(() => setSearch(''), []);
     useEffect(() => !selectedLocation && getUserLocation(), [selectedLocation]);
     useEffect(() => (async() => setPLaces(await getPlaces(search)))(), [search]);
     useEffect(() => {
@@ -69,8 +69,14 @@ const Home = ({ favorites, editFavorites }) => {
             const userLocation = await getLocationKeyByCoords(latitude, longitude);
             userLocation && userLocation.key && setLocation(userLocation);
         };
-        const error = ({ message }) => toast.warning(message || 'We didn\'t get your location');
+        const error = ({ message }) => message !== 'User denied Geolocation' && toast.warning(message || 'We didn\'t get your location');
         navigator.geolocation.getCurrentPosition(success, error);
+    }
+
+    const handleStarClick = (isFavorite) => {
+        editFavorites(isFavorite ? REMOVE_FROM_FAVORITES : ADD_TO_FAVORITES, location);
+        setTooltip(false);
+        setStarOver(false);
     }
 
     return (
@@ -140,17 +146,20 @@ const Home = ({ favorites, editFavorites }) => {
                                             setStarOver(false);
                                             setTooltip(false);
                                         }}
-                                        onClick={() => editFavorites(isFavorite ? REMOVE_FROM_FAVORITES : ADD_TO_FAVORITES, location)}
+                                        onClick={() => handleStarClick(isFavorite)}
                                     ></i>
                                     <strong 
                                         className="d-flex justify-content-center align-items-center p-0"
                                         style={{...styles.switchCelsiusIcon, ...switchCelsiusOver ? styles.iconOver : {}}}
-                                        onClick={() => setFahrenheit(!fahrenheit)}
                                         onMouseMove={(event) => setTooltip({event, content: 'Switch to ' + (fahrenheit ? 'celsius' : 'fahrenheit')})}
                                         onMouseEnter={() => setSwitchCelsiusOver(true)}
                                         onMouseLeave={() => {
                                             setSwitchCelsiusOver(false);
                                             setTooltip(false);
+                                        }}
+                                        onClick={() => {
+                                            setFahrenheit(!fahrenheit);
+                                            setSwitchCelsiusOver(false);
                                         }}
                                     >°{fahrenheit ? 'C' :'F'}</strong>
 

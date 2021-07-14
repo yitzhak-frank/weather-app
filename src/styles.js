@@ -21,10 +21,10 @@ const styles = {
     },
     weatherColor: txt => ({
         color: 
-            txt.match(/sun/i) ?                    '#EEBB22' : 
-            txt.match(/shower|rain/i) ?            '#00BBFF' : 
-            txt.match(/cloud|storm|dreary|fog/i) ? 'gray' : 
-            txt.match(/clear/i) ?                  'yellowgreen' : ''
+            txt.match(/sun/i)                    ? '#EEBB22'     : 
+            txt.match(/shower|rain/i)            ? '#00BBFF'     : 
+            txt.match(/cloud|storm|dreary|fog/i) ? 'gray'        : 
+            txt.match(/clear/i)                  ? 'yellowgreen' : ''
         }),
     tempColor: temp => ({
         color: 

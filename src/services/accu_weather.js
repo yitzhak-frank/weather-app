@@ -10,7 +10,7 @@ const errorHandler = (isError) => {
         error = setTimeout(() => {
             toast.error('Something went wrong');
             error = null;
-        }, 500);
+        }, 1500);
     }
 }
 
@@ -68,7 +68,7 @@ export const getWeatherForecast = async(location) => {
 export const getLocationKeyByCoords = async(lat, lng) => {
     if(!lat || !lng) return null;
     errorHandler(false);
-    const url = `https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${apiKey}&q=${lat},${lng}`
+    const url = `https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${apiKey}&q=${lat},${lng}`;
     try {
         const resp  = await fetch(url);
         const { Key: key, ParentCity: { LocalizedName: city }, Country: { LocalizedName: country } } = await resp.json();

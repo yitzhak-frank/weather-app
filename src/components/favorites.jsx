@@ -39,6 +39,7 @@ const Favorites = ({ favorites, editFavorites }) => {
 
     const handleStarClick = (e, i) => {
         editFavorites(REMOVE_FROM_FAVORITES, favorites[i]);
+        setStarOver(false);
         setTooltip(false);
         e.preventDefault();
         e.stopPropagation();
@@ -46,6 +47,8 @@ const Favorites = ({ favorites, editFavorites }) => {
 
     const handleSwitchCelsiusClick = (e) => {
         setFahrenheit(!fahrenheit);
+        setSwitchCelsiusOver(false);
+        setTooltip(false);
         e.preventDefault();
         e.stopPropagation();
     }

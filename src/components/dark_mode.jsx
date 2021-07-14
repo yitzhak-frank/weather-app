@@ -12,9 +12,11 @@ const Dark = () => {
 
     const switchTheme = useCallback(() => dark ? darkMode() : lightMode(), [dark])
 
+    // Get selected mode from localstorage.
     useEffect(() => setDark(JSON.parse(localStorage['dark-theme'] || "false")), []);
-    useEffect(switchTheme, [switchTheme, dark]);
     useEffect(() => {
+        switchTheme();
+        // Apply the selected mode on new elements as they are added.
         window.addEventListener('DOMNodeInserted', switchTheme);
         return () => window.removeEventListener('DOMNodeInserted', switchTheme);
     }, [switchTheme]);
@@ -57,6 +59,8 @@ const Dark = () => {
     const handleClick = () => {
         localStorage['dark-theme'] = !dark;
         setDark(!dark);
+        setTooltip(false);
+        setIconOver(false);
     }
 
     return (
