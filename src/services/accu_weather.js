@@ -18,7 +18,7 @@ export const getPlaces = async(search) => {
     search = search.replace(/^ +/, '');
     if(!search) return null;
     errorHandler(false);
-    const url = `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${search}&language=en-us`;
+    const url = `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${search}`;
     try {
         const resp  = await fetch(url);
         const respJ = await resp.json();
@@ -33,12 +33,12 @@ export const getPlaces = async(search) => {
 export const getCurrentWeather = async(location) => {
     if(!location) return null;
     errorHandler(false);
-    const url = `http://dataservice.accuweather.com/currentconditions/v1/${location}?apikey=${apiKey}&language=en-us&details=false`;
+    const url = `http://dataservice.accuweather.com/currentconditions/v1/${location}?apikey=${apiKey}`;
     try {
         const resp  = await fetch(url);
         const respJ = await resp.json();
         if(!respJ.length) return respJ;
-        return respJ.map(({ Temperature: { Metric: { Value: temperature }}, WeatherText: weather, WeatherIcon: icon}) => ({ temperature, weather, icon }));
+        return respJ.map(({ Temperature: { Imperial: { Value: F }, Metric: { Value: C }}, WeatherText: weather}) => ({ C, F, weather }));
     } catch(err) {
         errorHandler(true);
         return null;
@@ -48,12 +48,31 @@ export const getCurrentWeather = async(location) => {
 export const getWeatherForecast = async(location) => {
     if(!location) return null;
     errorHandler(false);
-    const url = `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${location}?apikey=${apiKey}&language=en-us&details=false&metric=true`;
+    const url = `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${location}?apikey=${apiKey}&metric=true`;
     try {
         const resp  = await fetch(url);
         const respJ = await resp.json();
         if(!respJ.DailyForecasts && respJ.DailyForecasts.length) return respJ;
-        return respJ.DailyForecasts.map(({ Date: date, Day: { IconPhrase: day }, Night: { IconPhrase: night }, Temperature: temperature }) => ({ date, day, night, temperature }));
+        return respJ.DailyForecasts.map(({ 
+            Date: date, 
+            Day: { IconPhrase: day },
+            Night: { IconPhrase: night }, 
+            Temperature: { Maximum: { Value: maxC }, Minimum: { Value: minC }}
+        }) => ({ date, day, night, maxC, minC, maxF: ((maxC * 1.8) + 32).toFixed(1), minF: ((minC * 1.8) + 32).toFixed(1) }));
+    } catch(err) {
+        errorHandler(true);
+        return null;
+    }
+}
+
+export const getLocationKeyByCoords = async(lat, lng) => {
+    if(!lat || !lng) return null;
+    errorHandler(false);
+    const url = `http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${apiKey}&q=${lat},${lng}`
+    try {
+        const resp  = await fetch(url);
+        const { Key: key, ParentCity: { LocalizedName: city }, Country: { LocalizedName: country } } = await resp.json();
+        return { key, city: 'Your location\n\r' + city, country };
     } catch(err) {
         errorHandler(true);
         return null;

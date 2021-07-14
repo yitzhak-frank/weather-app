@@ -11,7 +11,7 @@ const Tooltip = ({content, event}) => {
     const styles = {
         tooltip: {
             position: 'fixed', 
-            top: `${(top - scrollPositionTop) - 30}px`, 
+            top: `${top - scrollPositionTop}px`, 
             left: `${width - left > 200 ? left + 15 : left - 215}px`, 
             zIndex: 5, 
             width: '200px', 

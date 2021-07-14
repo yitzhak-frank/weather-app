@@ -10,7 +10,7 @@ const Dark = () => {
     const [iconOver, setIconOver] = useState(false);
     const [tooltip, setTooltip] = useState(false);
 
-    const switchTheme = useCallback(() => {dark ? darkMode() : lightMode();console.log(dark)}, [dark])
+    const switchTheme = useCallback(() => dark ? darkMode() : lightMode(), [dark])
 
     useEffect(() => setDark(JSON.parse(localStorage['dark-theme'])), []);
     useEffect(switchTheme, [switchTheme, dark]);
@@ -34,19 +34,21 @@ const Dark = () => {
         }
     }
 
+    const DARK_COLOR = 'rgb(41, 43, 44)', LIGHT_COLOR = 'white', ELEMENTS = 'body, div, main, input, nav';
+
     const darkMode = () => {
-        document.querySelectorAll('body, div, main, input, nav').forEach(({style, className}) => {
-            if((style.backgroundColor && style.backgroundColor !== 'white') || className.match(/toastify/i)) return;
-            style.backgroundColor = 'rgb(41, 43, 44)';
-            style.color = 'white';
+        document.querySelectorAll(ELEMENTS).forEach(({style, className}) => {
+            if((style.backgroundColor && style.backgroundColor !== LIGHT_COLOR) || className.match(/toastify/i)) return;
+            style.backgroundColor = DARK_COLOR;
+            style.color = LIGHT_COLOR;
         });
         document.querySelectorAll('.shadow').forEach(elem => elem.className = elem.className.replace('shadow', 'dark-theme-shadow'));
     }
 
     const lightMode = () => {
-        document.querySelectorAll('body, div, main, input, nav').forEach(({style, className}) => {
-            if((style.backgroundColor && style.backgroundColor !== 'rgb(41, 43, 44)') || className.match(/toastify/i)) return;
-            style.backgroundColor = 'white';
+        document.querySelectorAll(ELEMENTS).forEach(({style, className}) => {
+            if((style.backgroundColor && style.backgroundColor !== DARK_COLOR) || className.match(/toastify/i)) return;
+            style.backgroundColor = LIGHT_COLOR;
             style.color = '';
         });
         document.querySelectorAll('.dark-theme-shadow').forEach(elem => elem.className = elem.className.replace('dark-theme-shadow', 'shadow'));

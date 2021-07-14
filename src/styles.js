@@ -7,14 +7,14 @@ const styles = {
         textAlign: 'center', 
         color: '#EEBB22' 
     },
-    starIcon: { 
+    icon: { 
         fontSize: '1.55rem',
         padding: '10px',
         borderRadius: '7px',
         color: '#00BBFF',
         transition: '0.33s' 
     },
-    starIconOver: { 
+    iconOver: { 
         transform: 'scale(1.1)', 
         cursor: 'pointer', 
         color: '#EEBB22' 

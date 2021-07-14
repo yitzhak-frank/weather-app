@@ -1,14 +1,15 @@
 import styles from '../styles';
 import Tooltip from "./tooltip";
+import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import useWindowSize from "../hooks/screen_size";
 import { dateFormat } from "../services/date_util";
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from "react";
-import { getCurrentWeather, getPlaces, getWeatherForecast } from "../services/accu_weather";
 import { ADD_TO_FAVORITES, editFavorites, REMOVE_FROM_FAVORITES } from "../redux/favorites_reducer";
+import { getCurrentWeather, getLocationKeyByCoords, getPlaces, getWeatherForecast } from "../services/accu_weather";
 
-const { headingBlue, headingYellow, starIcon, starIconOver, tempColor, weatherColor } = styles;
+const { headingBlue, headingYellow, icon, iconOver, tempColor, weatherColor } = styles;
 
 const Home = ({ favorites, editFavorites }) => {
 
@@ -28,8 +29,13 @@ const Home = ({ favorites, editFavorites }) => {
     const [placeOver, setPLaceOver] = useState(false);
     const [starOver, setStarOver] = useState(false);
     const [tooltip, setTooltip] = useState(null);
+    const [fahrenheit, setFahrenheit] = useState(false);
+    const [switchCelsiusOver, setSwitchCelsiusOver] = useState(false);
     
-    useEffect(() => setSearch(''), []);
+    useEffect(() => {
+        getUserLocation();
+        setSearch('');
+    }, []);
     useEffect(() => (async() => setPLaces(await getPlaces(search)))(), [search]);
     useEffect(() => {
         (async() => {
@@ -47,15 +53,26 @@ const Home = ({ favorites, editFavorites }) => {
         places: { height: 'fit-content', width: '90%', maxWidth: '900px', marginTop: width > 768 ? '100px' : '150px' },
         place: { borderRadius: '7px', border: '1px solid #fff', transition: '0.33s' },
         main: { width: '90%', borderRadius: '15px', marginTop: (places && places.length) ? '' : width > 768 ? '100px' : '150px' },
+        location: { whiteSpace: 'pre-wrap' },
         currentWeather: { position: 'relative' },
         dailyWeatherContainer: { overflow: 'auto', maxHeight: '350px', width: width > 768 ? '100%' : 'fit-content' },
         dailyWeather: { width: width > 400 && '300px', minWidth: width > 400 && '300px', borderRadius: '7px', height: 'fit-content' },
-        starIcon: { position: 'absolute', top: '-25px', left: '25px', ...starIcon },
-        starIconOver,
+        starIcon: { ...icon, position: 'absolute', top: '-25px', left: '25px' },
+        switchCelsiusIcon: { ...icon, position: 'absolute', top: '-30px', right: '25px', fontSize: '2.2rem' },
+        iconOver,
         headingBlue, 
         headingYellow, 
         tempColor, 
         weatherColor
+    }
+
+    const getUserLocation = () => {
+        const success = async({coords: { latitude, longitude }}) => {
+            const userLocation = await getLocationKeyByCoords(latitude, longitude);
+            userLocation && userLocation.key && setLocation(userLocation);
+        };
+        const error = ({ message }) => toast.warning(message || 'We didn\'t get your location');
+        navigator.geolocation.getCurrentPosition(success, error);
     }
 
     return (
@@ -111,15 +128,15 @@ const Home = ({ favorites, editFavorites }) => {
                     : <></>
                 } {
                     (!places || !places.length) && currentWeather && currentWeather.length ?
-                        currentWeather.map(({ temperature, weather }, i) => {
+                        currentWeather.map(({ C, F, weather }, i) => {
                             const { city, country } = location;
                             const isFavorite = favorites.some(({key}) => key === location.key);
                             return (
                                 <div className="current-weather pt-3 px-3 pb-0" key={i} style={styles.currentWeather}>
                                     <i 
                                         className={isFavorite ? "fas fa-star shadow" : "far fa-star shadow"}
-                                        style={{...styles.starIcon, ...starOver ? styles.starIconOver : {}}}
-                                        onMouseMove={setTooltip}
+                                        style={{...styles.starIcon, ...starOver ? styles.iconOver : {}}}
+                                        onMouseMove={(event) => setTooltip({ event, content: isFavorite ? 'Remove from favorites' : 'Add to favorites' })}
                                         onMouseEnter={() => setStarOver(true)}
                                         onMouseLeave={() => {
                                             setStarOver(false);
@@ -127,14 +144,26 @@ const Home = ({ favorites, editFavorites }) => {
                                         }}
                                         onClick={() => editFavorites(isFavorite ? REMOVE_FROM_FAVORITES : ADD_TO_FAVORITES, location)}
                                     ></i>
+                                    <strong 
+                                        className="d-flex justify-content-center align-items-center p-0"
+                                        style={{...styles.switchCelsiusIcon, ...switchCelsiusOver ? styles.iconOver : {}}}
+                                        onClick={() => setFahrenheit(!fahrenheit)}
+                                        onMouseMove={(event) => setTooltip({event, content: 'Switch to ' + (fahrenheit ? 'celsius' : 'fahrenheit')})}
+                                        onMouseEnter={() => setSwitchCelsiusOver(true)}
+                                        onMouseLeave={() => {
+                                            setSwitchCelsiusOver(false);
+                                            setTooltip(false);
+                                        }}
+                                    >°{fahrenheit ? 'C' :'F'}</strong>
+
                                     <div className="main-top d-block d-md-flex justify-content-around align-items-center">
                                         <h4 style={styles.headingBlue}>
-                                            <strong>{city}</strong><br/>
+                                            <strong style={styles.location}>{city}</strong><br/>
                                             <span>{country}</span>
                                         </h4>
                                         <h5 className="text-center p-3"> 
                                             <span style={styles.weatherColor(weather)}>{weather} </span>&nbsp;
-                                            <span style={styles.tempColor(temperature)}>{temperature} °C</span>
+                                            <span style={styles.tempColor(C)}>{fahrenheit ? F : C} °{fahrenheit ? 'F' :'C'}</span>
                                         </h5>
                                     </div>
                                 </div>
@@ -149,8 +178,7 @@ const Home = ({ favorites, editFavorites }) => {
                 } {
                     (!places || !places.length) && weatherForecast && weatherForecast.length ?
                         <div className="weather-5-days mx-auto p-4 d-block d-md-flex" style={styles.dailyWeatherContainer}>
-                            {weatherForecast.map(({ date, day, night, temperature }, i) => {
-                                const { Maximum: { Value: max }, Minimum: { Value: min } } = temperature;
+                            {weatherForecast.map(({ date, day, night, maxC, minC, maxF, minF }, i) => {
                                 const { formatedDate, day: dayName } = dateFormat(date);
                                 return (
                                     <div className="weather-day p-3 m-2 shadow" key={i} style={styles.dailyWeather}>
@@ -162,8 +190,12 @@ const Home = ({ favorites, editFavorites }) => {
                                             <h6>Day: &nbsp;&nbsp; <span style={styles.weatherColor(day)}>{day}</span></h6>
                                             <h6>Night: <span style={styles.weatherColor(night)}>{night}</span></h6>
                                             <h6 className="text-center mb-0"> 
-                                                <span style={styles.tempColor(max)}>{max} °C</span>&nbsp;-&nbsp;
-                                                <span style={styles.tempColor(min)}>{min} °C</span>
+                                                <span style={styles.tempColor(maxC)}>
+                                                    {fahrenheit ? maxF : maxC} °{fahrenheit ? 'F' :'C'}
+                                                </span>&nbsp;-&nbsp;
+                                                <span style={styles.tempColor(minC)}>
+                                                    {fahrenheit ? minF : minC} °{fahrenheit ? 'F' :'C'}
+                                                </span>
                                             </h6>
                                             
                                         </div>
@@ -175,10 +207,7 @@ const Home = ({ favorites, editFavorites }) => {
                 }
             </main>
             <div className="bottom-space p-3"></div>
-            {tooltip && <Tooltip 
-                content={favorites.some(({key}) => key === location.key) ? 'Remove from favorites' : 'Add to favorites'}
-                event={tooltip}
-            />}
+            {tooltip && <Tooltip content={tooltip.content} event={tooltip.event}/>}
         </>
     );
 }
