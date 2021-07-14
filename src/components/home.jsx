@@ -32,10 +32,8 @@ const Home = ({ favorites, editFavorites }) => {
     const [fahrenheit, setFahrenheit] = useState(false);
     const [switchCelsiusOver, setSwitchCelsiusOver] = useState(false);
     
-    useEffect(() => {
-        getUserLocation();
-        setSearch('');
-    }, []);
+    useEffect(() => setSearch(''), [])
+    useEffect(() => !selectedLocation && getUserLocation(), [selectedLocation]);
     useEffect(() => (async() => setPLaces(await getPlaces(search)))(), [search]);
     useEffect(() => {
         (async() => {

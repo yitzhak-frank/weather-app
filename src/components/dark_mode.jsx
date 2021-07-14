@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
-import useWindowSize from "../hooks/screen_size";
 import Tooltip from "./tooltip";
+import useWindowSize from "../hooks/screen_size";
+import { useCallback, useEffect, useState } from "react";
 
 const Dark = () => {
 
@@ -12,7 +12,7 @@ const Dark = () => {
 
     const switchTheme = useCallback(() => dark ? darkMode() : lightMode(), [dark])
 
-    useEffect(() => setDark(JSON.parse(localStorage['dark-theme'])), []);
+    useEffect(() => setDark(JSON.parse(localStorage['dark-theme'] || "false")), []);
     useEffect(switchTheme, [switchTheme, dark]);
     useEffect(() => {
         window.addEventListener('DOMNodeInserted', switchTheme);

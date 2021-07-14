@@ -1,4 +1,4 @@
-import logoIcon from '../accets/favicon.png';
+import logoIcon from '../assets/favicon.png';
 import { NavLink } from "react-router-dom";
 import useWindowSize from '../hooks/screen_size';
 import { useEffect, useState } from "react";

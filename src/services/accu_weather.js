@@ -33,7 +33,7 @@ export const getPlaces = async(search) => {
 export const getCurrentWeather = async(location) => {
     if(!location) return null;
     errorHandler(false);
-    const url = `http://dataservice.accuweather.com/currentconditions/v1/${location}?apikey=${apiKey}`;
+    const url = `https://dataservice.accuweather.com/currentconditions/v1/${location}?apikey=${apiKey}`;
     try {
         const resp  = await fetch(url);
         const respJ = await resp.json();
@@ -48,7 +48,7 @@ export const getCurrentWeather = async(location) => {
 export const getWeatherForecast = async(location) => {
     if(!location) return null;
     errorHandler(false);
-    const url = `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${location}?apikey=${apiKey}&metric=true`;
+    const url = `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${location}?apikey=${apiKey}&metric=true`;
     try {
         const resp  = await fetch(url);
         const respJ = await resp.json();
@@ -68,7 +68,7 @@ export const getWeatherForecast = async(location) => {
 export const getLocationKeyByCoords = async(lat, lng) => {
     if(!lat || !lng) return null;
     errorHandler(false);
-    const url = `http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${apiKey}&q=${lat},${lng}`
+    const url = `https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${apiKey}&q=${lat},${lng}`
     try {
         const resp  = await fetch(url);
         const { Key: key, ParentCity: { LocalizedName: city }, Country: { LocalizedName: country } } = await resp.json();
