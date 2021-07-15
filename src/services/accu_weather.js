@@ -51,9 +51,9 @@ export const getWeatherForecast = async(location) => {
     const url = `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${location}?apikey=${apiKey}&metric=true`;
     try {
         const resp  = await fetch(url);
-        const respJ = await resp.json();
-        if(!respJ.DailyForecasts && respJ.DailyForecasts.length) return respJ;
-        return respJ.DailyForecasts.map(({ 
+        const { DailyForecasts } = await resp.json();
+        if(!DailyForecasts || !DailyForecasts.length) return DailyForecasts;
+        return DailyForecasts.map(({ 
             Date: date, 
             Day: { IconPhrase: day },
             Night: { IconPhrase: night }, 
